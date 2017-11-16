@@ -1,34 +1,59 @@
 import types
 from collections import namedtuple
+from importlib import import_module
+
+from sanic.blueprints import Blueprint as BP
+
+from trellio2.conf import settings
 
 Route = namedtuple('Route', 'uri handler methods')
 
 
-class Include:
-    def __call__(self, prefix, url_module):
-        self._prefix = prefix
-        self._url_module = url_module
-        return self.get_urls()
+class Blueprint(BP):
+    _instances = []
 
-    def get_urls(self):
-        routes = set()
-        patterns = getattr(self._url_module, 'urlpatterns', self._url_module)
-        for each in patterns:
-            routes.add(Route(uri=self._prefix + each.uri, handler=each.handler, methods=each.methods))
-        return routes
+    def __init__(self, *args, **kwargs):
+        super(Blueprint, self).__init__(*args, **kwargs)
+        self._instances.append(self)
 
+    def url(self, uri, handler, methods=None, **kwargs):
 
-include = Include()
+        strict_slashes = getattr(settings, 'STRICT_SLASHES', False)
+
+        if isinstance(handler, list):
+            for _ in handler:
+                for each in _:
+                    self.add_route(handler=each.handler, uri=each.uri, methods=each.methods,
+                                   strict_slashes=strict_slashes)
+
+        elif isinstance(handler, types.FunctionType):
+            if isinstance(methods, str):
+                methods = [methods.upper()]
+            elif isinstance(methods, list):
+                methods = [m.upper() for m in methods]
+            self.add_route(handler=handler, uri=uri, methods=methods, strict_slashes=strict_slashes)
 
 
 def url(uri, handler, methods=None, **kwargs):
-    routes = set()
-    if isinstance(handler, include):
-        routes.update(handler)
+    routes = []
+    if isinstance(handler, list):
+        for _ in handler:
+            for each in _:
+                routes.append(Route(uri=uri + each.uri, handler=each.handler, methods=each.methods))
+
     elif isinstance(handler, types.FunctionType):
         if isinstance(methods, str):
             methods = [methods.upper()]
         elif isinstance(methods, list):
             methods = [m.upper() for m in methods]
-        routes.add(Route(uri=uri, handler=handler, methods=methods))
+        routes.append(Route(uri=uri, handler=handler, methods=methods))
     return routes
+
+
+class Include:
+    def __call__(self, url_module):
+        mod = import_module(url_module)
+        return getattr(mod, 'urlpatterns', [])
+
+
+include = Include()
