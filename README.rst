@@ -31,18 +31,26 @@ Getting Started
     │   └── wsgi.py
     └── manage.py
 
-* Start server -
+* Start server run following command in root directory
     $ python manage.py runserver
 
-* Important settings
+* Important settings with default values.
 
-    - ROOT_URLCONF : Main entry point for project urls, value for above example 'projectname.urls'
-    - MAX_WORKERS : Number of server processes. Default value is equal to number of cpu cores.
-    - INSTALLED_APPS : List of apps. Value for above example
-                       ["appdir1",
+    - ROOT_URLCONF = 'projectname.urls'
+      Main entry point for project urls.
+    - MAX_WORKERS = 4
+      Number of server processes. Default value is equal to number of cpu cores.
+    - INSTALLED_APPS = ["appdir1",
                         "appdir2",]
-    - BASE_DIR : Root directory, default value
-                 os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    - DEBUG : Default value is False
-    - STRICT_SLASHES : Default value is False
-    - MIDDLEWARES : List of middlewares with path.
+      List of apps
+
+    - BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+      Root directory, default value
+    - DEBUG = False
+    - STRICT_SLASHES = False
+    - MIDDLEWARES
+      List of middlewares with path relative to root directory.
+    - SERVER_HOST = "127.0.0.1"
+    - SERVER_PORT = 8000
+    - LOGGING
+      logging config dict
