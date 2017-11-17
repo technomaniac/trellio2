@@ -31,6 +31,9 @@ Getting Started
     │   └── wsgi.py
     └── manage.py
 
+* Start server -
+    $ python manage.py runserver
+
 * Important settings
 
     - ROOT_URLCONF : Main entry point for project urls, value for above example 'projectname.urls'
