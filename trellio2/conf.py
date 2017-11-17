@@ -8,8 +8,16 @@ from trellio2.exceptions import ImproperlyConfigured
 ENVIRONMENT_VARIABLE = "TRELLIO_SETTINGS_MODULE"
 
 
-class Settings:
+class Borg:
+    __shared_state = dict()
+
     def __init__(self):
+        self.__dict__ = self.__shared_state
+
+
+class Settings(Borg):
+    def __init__(self):
+        super().__init__()
         self.SETTINGS_MODULE = os.environ.get(ENVIRONMENT_VARIABLE)
         mod = import_module(self.SETTINGS_MODULE)
 
@@ -49,6 +57,8 @@ class Settings:
 
         for app in self.INSTALLED_APPS:
             sys.path.append(os.path.join(self.BASE_DIR, app))
+
+        self.configured = True
 
     def is_overridden(self, setting):
         return setting in self._explicit_settings

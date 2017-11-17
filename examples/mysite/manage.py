@@ -2,13 +2,9 @@
 import os
 import sys
 
-os.environ.setdefault("TRELLIO_SETTINGS_MODULE", "mysite.settings")
+from trellio2.management import execute_from_command_line
 
 if __name__ == "__main__":
-    from trellio2.app import Application
+    os.environ.setdefault("TRELLIO_SETTINGS_MODULE", "mysite.settings")
 
-    args = sys.argv
-    if len(args) > 1:
-        if args[1] == 'runserver':
-            app = Application('mysite')
-            app.run()
+    execute_from_command_line(sys.argv)
