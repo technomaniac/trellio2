@@ -137,3 +137,12 @@ Getting Started
         MIDDLEWARES = [
             'projectname.middlewares.TestMiddleware'
         ]
+
+* Get APIs documented automatically by installing `sanic-openapi`
+
+    pip install sanic-openapi
+
+  Get API Documentation at `http://<host>:<port>/swagger`
+
+
+
