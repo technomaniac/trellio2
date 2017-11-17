@@ -32,24 +32,24 @@ Getting Started
     └── manage.py
 
 * Start server run following command in root directory::
-        $ python manage.py runserver
+    $ python manage.py runserver
 
 * Important settings with default values.
 
     - ROOT_URLCONF = 'projectname.urls'
-      *Main entry point for project urls.
+        Main entry point for project urls.
     - MAX_WORKERS = 4
-      Number of server processes. Default value is equal to number of cpu cores.
+        Number of server processes. Default value is equal to number of cpu cores.
     - INSTALLED_APPS = ["appdir1",
                         "appdir2",]
-      List of apps
+        List of apps
 
     - BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-      Root directory
+        Root directory
     - DEBUG = False
     - STRICT_SLASHES = False
     - MIDDLEWARES
-      List of middlewares with path relative to root directory.
+        List of middlewares with path relative to root directory.
     - SERVER_HOST = "127.0.0.1"
     - SERVER_PORT = 8000
     - LOGGING
