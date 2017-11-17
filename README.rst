@@ -142,7 +142,7 @@ Getting Started
 
     pip install sanic-openapi
 
-  Get API Documentation at `http://<host>:<port>/swagger`
+  Get API Documentation at ``http://127.0.0.1:8000/swagger``
 
 
 
